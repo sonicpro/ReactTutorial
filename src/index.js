@@ -23,14 +23,20 @@ class Board extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick() {
-    alert('boom!');
+  handleClick(i) {
+    // Copying squares array from state.
+    const squares = this.state.squares.slice();
+    squares[i] = 'X';
+    this.setState({
+      squares: squares
+    });
   }
   renderSquare(i) {
     return (
       <Square
         value={this.state.squares[i]}
-        onClick={this.handleClick} />
+        // Using arrow function to bind "i" argument to handleClick.
+        onClick={() => this.handleClick(i)} />
     );
   }
   render() {
