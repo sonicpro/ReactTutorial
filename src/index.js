@@ -16,7 +16,8 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      squares: Array(9).fill(null)
+      squares: Array(9).fill(null),
+      xIsNext: true
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -24,11 +25,13 @@ class Board extends React.Component {
   handleClick(i) {
     // Copying squares array from state.
     const squares = this.state.squares.slice();
-    squares[i] = 'X';
-    this.setState({
-      squares: squares
-    });
+    squares[i] = this.state.xIsNext ? 'X' : 'O';
+    this.setState(prevState =>({
+      squares: squares,
+      xIsNext: !prevState.xIsNext
+    }));
   }
+
   renderSquare(i) {
     return (
       <Square
@@ -37,9 +40,9 @@ class Board extends React.Component {
         onClick={() => this.handleClick(i)} />
     );
   }
-  render() {
-    const status = 'Next player: X';
 
+  render() {
+    const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     return (
       <div>
         <div className="status">{status}</div>
@@ -77,6 +80,20 @@ class Game extends React.Component {
       </div>
     );
   }
+}
+
+// Helper function. Returns "winner sign" in case somebody has won, or null otherwise.
+function calculateWinner(squares) {
+  const lines = [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    []
+  ]
 }
 
 // ============================================
